@@ -1,7 +1,6 @@
 const { strictEqual } = require('assert')
+const assert = require('assert/strict')
 const { resolve } = require('path')
-const assertThrows = require('assert-throws-async')
-const getStream = require('get-stream')
 const { isReadable } = require('isstream')
 const { describe, it } = require('mocha')
 const rdf = require('rdf-ext')
@@ -22,25 +21,43 @@ describe('fromFile', () => {
   })
 
   it('should throw an error if the file extension is unknown', async () => {
-    await assertThrows(async () => {
-      fromFile('test.jpg')
-    }, Error, /Unknown file extension/)
+    await assert.rejects(
+      async () => {
+        fromFile('test.jpg')
+      },
+      {
+        name: 'Error',
+        message: 'Unknown file extension: jpg'
+      }
+    )
   })
 
   it('should throw an error if the media type is unknown', async () => {
-    await assertThrows(async () => {
-      fromFile('test.jpg', {
-        extensions: {
-          jpg: 'image/jpeg'
-        }
-      })
-    }, Error, /No parser available for media type/)
+    await assert.rejects(
+      async () => {
+        fromFile('test.jpg', {
+          extensions: {
+            jpg: 'image/jpeg'
+          }
+        })
+      },
+      {
+        name: 'Error',
+        message: 'No parser available for media type: image/jpeg'
+      }
+    )
   })
 
   it('should throw an error if the file does not exist', async () => {
-    await assertThrows(async () => {
-      const stream = fromFile('void.ttl')
-      await getStream.array(stream)
-    }, Error, /ENOENT: no such file or directory/)
+    await assert.rejects(
+      async () => {
+        const stream = fromFile('void.ttl')
+        stream.resume()
+      },
+      {
+        name: 'Error',
+        message: 'ENOENT: no such file or directory'
+      }
+    )
   })
 })
