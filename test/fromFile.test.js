@@ -1,10 +1,11 @@
 const { strictEqual } = require('assert')
+const assert = require('assert/strict')
 const { resolve } = require('path')
-const assertThrows = require('assert-throws-async')
-const getStream = require('get-stream')
+const { promisify } = require('util')
 const { isReadable } = require('isstream')
 const { describe, it } = require('mocha')
 const rdf = require('rdf-ext')
+const { finished } = require('readable-stream')
 const fromFile = require('../fromFile')
 const example = require('./support/example')
 
@@ -21,26 +22,36 @@ describe('fromFile', () => {
     strictEqual(dataset.toCanonical(), example().toCanonical())
   })
 
-  it('should throw an error if the file extension is unknown', async () => {
-    await assertThrows(async () => {
+  it('should throw an error if the file extension is unknown', () => {
+    assert.throws(() => {
       fromFile('test.jpg')
-    }, Error, /Unknown file extension/)
+    }, {
+      name: 'Error',
+      message: 'Unknown file extension: jpg'
+    })
   })
 
-  it('should throw an error if the media type is unknown', async () => {
-    await assertThrows(async () => {
+  it('should throw an error if the media type is unknown', () => {
+    assert.throws(() => {
       fromFile('test.jpg', {
         extensions: {
           jpg: 'image/jpeg'
         }
       })
-    }, Error, /No parser available for media type/)
+    }, {
+      name: 'Error',
+      message: 'No parser available for media type: image/jpeg'
+    })
   })
 
   it('should throw an error if the file does not exist', async () => {
-    await assertThrows(async () => {
+    await assert.rejects(async () => {
       const stream = fromFile('void.ttl')
-      await getStream.array(stream)
-    }, Error, /ENOENT: no such file or directory/)
+      stream.resume()
+      await promisify(finished)(stream)
+    }, {
+      name: 'Error',
+      message: "ENOENT: no such file or directory, open 'void.ttl'"
+    })
   })
 })
