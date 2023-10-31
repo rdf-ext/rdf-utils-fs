@@ -1,4 +1,7 @@
-module.exports = {
-  fromFile: require('./fromFile'),
-  toFile: require('./toFile')
+import fromFile from './fromFile.js'
+import toFile from './toFile.js'
+
+export {
+  fromFile,
+  toFile
 }

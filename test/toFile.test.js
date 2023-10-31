@@ -1,10 +1,9 @@
-const { strictEqual, throws } = require('assert')
-const { readFileSync } = require('fs')
-const { resolve } = require('path')
-const { describe, it } = require('mocha')
-const shell = require('shelljs')
-const toFile = require('../toFile')
-const example = require('./support/example')
+import { strictEqual, throws } from 'node:assert'
+import { readFile } from 'node:fs/promises'
+import { describe, it } from 'mocha'
+import shell from 'shelljs'
+import toFile from '../toFile.js'
+import * as example from './support/example.js'
 
 describe('toFile', () => {
   shell.mkdir('-p', 'tmp')
@@ -16,8 +15,8 @@ describe('toFile', () => {
   it('should create a quad stream', async () => {
     const filename = 'tmp/test.nt'
     await toFile(example.defaultGraph().toStream(), filename)
-    const content = readFileSync(filename).toString().trim()
-    const expected = readFileSync(resolve(__dirname, 'support/example.nt')).toString().trim()
+    const content = (await readFile(filename)).toString().trim()
+    const expected = (await readFile(new URL('support/example.nt', import.meta.url).pathname)).toString().trim()
 
     strictEqual(content, expected)
   })

@@ -1,11 +1,11 @@
-const { createWriteStream } = require('fs')
-const { extname } = require('path')
-const { promisify } = require('util')
-const formats = require('@rdfjs/formats-common')
-const { finished } = require('readable-stream')
-const config = require('./defaults')
+import { createWriteStream } from 'node:fs'
+import { extname } from 'node:path'
+import { promisify } from 'node:util'
+import formats from '@rdfjs/formats-common'
+import { finished } from 'readable-stream'
+import defaults from './defaults.js'
 
-function toFile (stream, filename, { extensions = config.extensions, ...options } = {}) {
+function toFile (stream, filename, { extensions = defaults.extensions, ...options } = {}) {
   const extension = extname(filename).split('.').pop()
   const mediaType = extensions[extension]
 
@@ -26,4 +26,4 @@ function toFile (stream, filename, { extensions = config.extensions, ...options 
   return promisify(finished)(output)
 }
 
-module.exports = toFile
+export default toFile
