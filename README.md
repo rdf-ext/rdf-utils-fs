@@ -1,7 +1,7 @@
 # rdf-utils-fs
 
-[![Build Status](https://travis-ci.org/rdf-ext/rdf-utils-fs.svg?branch=master)](https://travis-ci.org/rdf-ext/rdf-utils-dataset)
-[![npm version](https://badge.fury.io/js/rdf-utils-fs.svg)](https://badge.fury.io/js/rdf-utils-dataset)
+[![build status](https://img.shields.io/github/actions/workflow/status/rdf-ext/rdf-utils-fs/test.yaml?branch=master)](https://github.com/rdf-ext/rdf-utils-fs/actions/workflows/test.yaml)
+[![npm version](https://img.shields.io/npm/v/rdf-utils-fs.svg)](https://www.npmjs.com/package/rdf-utils-fs)
 
 File system utils for RDF/JS.
 
@@ -13,12 +13,18 @@ Each util function can be loaded as property from the main module or by loading 
 
 Loading the function from the main module:
 
-    const resource = require('rdf-utils-fs').fromFile
+```javascript
+import { fromFile } from 'rdf-utils-fs'
+import { toFile } from 'rdf-utils-fs'
+```
  
 Loading the function from the file with the function name:
 
-    const resource = require('rdf-utils-fs/fromFile')
-    
+```javascript
+import fromFile from 'rdf-utils-fs/fromFile.js'
+import toFile from 'rdf-utils-fs/toFile.js'
+```
+ 
 ## Functions
 
 ### fromFile(filename, options)

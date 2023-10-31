@@ -1,22 +1,21 @@
-const { strictEqual, throws } = require('assert')
-const { resolve } = require('path')
-const { isReadable } = require('isstream')
-const { describe, it } = require('mocha')
-const rdf = require('rdf-ext')
-const fromFile = require('../fromFile')
-const example = require('./support/example')
+import { strictEqual, throws } from 'node:assert'
+import { isReadableStream } from 'is-stream'
+import { describe, it } from 'mocha'
+import rdf from 'rdf-ext'
+import fromFile from '../fromFile.js'
+import * as example from './support/example.js'
 
 describe('fromFile', () => {
   it('should create a quad stream', async () => {
-    const stream = fromFile(resolve(__dirname, 'support/example.nt'))
+    const stream = fromFile(new URL('support/example.nt', import.meta.url).pathname)
 
     stream.resume()
 
-    strictEqual(isReadable(stream), true)
+    strictEqual(isReadableStream(stream), true)
   })
 
   it('should forward options to parser', async () => {
-    const stream = fromFile(resolve(__dirname, 'support/example.ttl'), { baseIRI: 'http://example.org/' })
+    const stream = fromFile(new URL('support/example.ttl', import.meta.url).pathname, { baseIRI: 'http://example.org/' })
     const dataset = await rdf.dataset().import(stream)
 
     strictEqual(dataset.toCanonical(), example.defaultGraph().toCanonical())
@@ -27,7 +26,7 @@ describe('fromFile', () => {
       trig: 'application/trig'
     }
 
-    const stream = fromFile(resolve(__dirname, 'support/example.nt'), { extensions })
+    const stream = fromFile(new URL('support/example.nt', import.meta.url).pathname, { extensions })
     const dataset = await rdf.dataset().import(stream)
 
     strictEqual(dataset.toCanonical(), example.defaultGraph().toCanonical())
@@ -42,7 +41,7 @@ describe('fromFile', () => {
   ]
   for (const [extension, expected] of commonExtensions) {
     it(`should load ${extension} out of the box`, async () => {
-      const stream = fromFile(resolve(__dirname, `support/example.${extension}`))
+      const stream = fromFile(new URL(`support/example.${extension}`, import.meta.url).pathname)
       const dataset = await rdf.dataset().import(stream)
 
       strictEqual(dataset.toCanonical(), expected().toCanonical())

@@ -1,7 +1,7 @@
-const { createReadStream } = require('fs')
-const { extname } = require('path')
-const formats = require('@rdfjs/formats-common')
-const defaults = require('./defaults')
+import { createReadStream } from 'node:fs'
+import { extname } from 'node:path'
+import formats from '@rdfjs/formats-common'
+import defaults from './defaults.js'
 
 function fromFile (filename, { extensions, ...options } = {}) {
   const combinedExtensions = {
@@ -25,4 +25,4 @@ function fromFile (filename, { extensions, ...options } = {}) {
   return parser.import(createReadStream(filename), options)
 }
 
-module.exports = fromFile
+export default fromFile

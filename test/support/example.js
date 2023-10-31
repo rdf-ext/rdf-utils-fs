@@ -1,4 +1,4 @@
-const rdf = require('rdf-ext')
+import rdf from 'rdf-ext'
 
 function defaultGraph () {
   return rdf.dataset([rdf.quad(
@@ -17,7 +17,7 @@ function namedGraph () {
   )])
 }
 
-module.exports = {
+export {
   defaultGraph,
   namedGraph
 }
