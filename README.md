@@ -5,6 +5,8 @@
 
 File system utils for RDF/JS.
 
+*Please consider switching to the [@rdfjs/io](https://github.com/rdfjs-base/io) features of [rdf-ext](https://github.com/rdf-ext/rdf-ext), as it supports the same features and is even richer in functionality.*
+
 ## Usage
 
 Each util function can be loaded as property from the main module or by loading only the file with the same name.
