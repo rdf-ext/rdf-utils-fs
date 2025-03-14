@@ -1,6 +1,6 @@
 import { createReadStream } from 'node:fs'
 import { extname } from 'node:path'
-import formats from '@rdfjs/formats-common'
+import formats from '@rdfjs/formats'
 import defaults from './defaults.js'
 
 function fromFile (filename, { extensions, ...options } = {}) {

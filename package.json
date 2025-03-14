@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/rdf-ext/rdf-utils-fs",
   "dependencies": {
-    "@rdfjs/formats-common": "^3.1.0",
+    "@rdfjs/formats": "^4.0.1",
     "readable-stream": "^4.4.2"
   },
   "devDependencies": {
