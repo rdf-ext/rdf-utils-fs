@@ -1,7 +1,7 @@
 import { createWriteStream } from 'node:fs'
 import { extname } from 'node:path'
 import { promisify } from 'node:util'
-import formats from '@rdfjs/formats-common'
+import formats from '@rdfjs/formats'
 import { finished } from 'readable-stream'
 import defaults from './defaults.js'
 
